@@ -94,4 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <button type="submit">Actualizar enlace</button>
         </form>
-        <p style="text-align:center;
+        <p style="text-align:center; margin-top:1rem;"><a href="dashboard.php" style="color:#0066cc;">← Volver al dashboard</a></p>
+    </div>
+</body>
+</html>
