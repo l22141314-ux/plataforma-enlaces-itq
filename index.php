@@ -2,17 +2,30 @@
 // index.php
 require_once 'config/db.php';
 
-// Obtener todas las categorías con sus enlaces
-$sql = "SELECT c.id AS categoria_id, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion,
-               e.id AS enlace_id, e.titulo, e.descripcion, e.url, e.destacado
-        FROM categorias c
-        LEFT JOIN enlaces e ON e.categoria_id = c.id
-        ORDER BY c.id, e.destacado DESC, e.titulo ASC";
+// Capturar término de búsqueda
+$busqueda = trim($_GET['q'] ?? '');
 
-$stmt = $pdo->query($sql);
+// Obtener categorías y enlaces (con o sin filtro)
+if ($busqueda !== '') {
+    $sql = "SELECT c.id AS categoria_id, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion,
+                   e.id AS enlace_id, e.titulo, e.descripcion, e.url, e.destacado
+            FROM categorias c
+            LEFT JOIN enlaces e ON e.categoria_id = c.id
+            WHERE e.titulo LIKE :q OR e.descripcion LIKE :q
+            ORDER BY c.id, e.destacado DESC, e.titulo ASC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':q' => "%$busqueda%"]);
+} else {
+    $sql = "SELECT c.id AS categoria_id, c.nombre AS categoria_nombre, c.descripcion AS categoria_descripcion,
+                   e.id AS enlace_id, e.titulo, e.descripcion, e.url, e.destacado
+            FROM categorias c
+            LEFT JOIN enlaces e ON e.categoria_id = c.id
+            ORDER BY c.id, e.destacado DESC, e.titulo ASC";
+    $stmt = $pdo->query($sql);
+}
+
 $rows = $stmt->fetchAll();
 
-// Reorganizar los datos por categoría
 $categorias = [];
 foreach ($rows as $row) {
     $catId = $row['categoria_id'];
@@ -33,7 +46,7 @@ foreach ($rows as $row) {
     }
 }
 
-// Obtener enlaces destacados (avisos/convocatorias vigentes)
+// Destacados
 $stmtDestacados = $pdo->query("SELECT titulo, descripcion, url FROM enlaces WHERE destacado = 1 ORDER BY fecha_creacion DESC LIMIT 5");
 $destacados = $stmtDestacados->fetchAll();
 ?>
@@ -58,7 +71,31 @@ $destacados = $stmtDestacados->fetchAll();
     </nav>
 
     <main class="container">
-        <?php if (!empty($destacados)): ?>
+        <!-- Buscador -->
+        <section class="buscador">
+            <form method="GET" action="index.php">
+                <input type="text" name="q" placeholder="Buscar enlaces por título o descripción..." value="<?= htmlspecialchars($busqueda) ?>">
+                <button type="submit">Buscar</button>
+                <?php if ($busqueda !== ''): ?>
+                    <a href="index.php" class="limpiar">Limpiar</a>
+                <?php endif; ?>
+            </form>
+            <?php if ($busqueda !== ''): ?>
+                <p class="resultado-info">
+                    <?php
+                    $total = 0;
+                    foreach ($categorias as $c) { $total += count($c['enlaces']); }
+                    ?>
+                    <?= $total ?> resultado(s) para "<?= htmlspecialchars($busqueda) ?>"
+                </p>
+            <?php endif; ?>
+        </section>
+
+        <?php if ($busqueda !== '' && empty(array_filter(array_column($categorias, 'enlaces')))): ?>
+            <p class="vacio" style="text-align:center; font-size:1.1rem;">No se encontraron resultados para "<?= htmlspecialchars($busqueda) ?>".</p>
+        <?php endif; ?>
+
+        <?php if (!empty($destacados) && $busqueda === ''): ?>
         <section id="destacados" class="destacados">
             <h2>🔔 Avisos y Convocatorias Vigentes</h2>
             <div class="destacados-grid">
@@ -77,6 +114,7 @@ $destacados = $stmtDestacados->fetchAll();
             <h2>Categorías de Recursos</h2>
 
             <?php foreach ($categorias as $cat): ?>
+                <?php if (empty($cat['enlaces']) && $busqueda !== '') continue; ?>
                 <div class="categoria">
                     <h3><?= htmlspecialchars($cat['nombre']) ?></h3>
                     <p class="categoria-desc"><?= htmlspecialchars($cat['descripcion']) ?></p>

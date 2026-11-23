@@ -1,161 +1,52 @@
-/* assets/css/style.css */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-}
-
-body {
-    background: #f4f6f9;
-    color: #333;
-    line-height: 1.6;
-}
-
-.header {
-    background: #003366;
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
-}
-
-.header h1 {
-    font-size: 1.8rem;
-}
-
-.header p {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.nav {
-    background: #002244;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding: 0.8rem;
-    flex-wrap: wrap;
-}
-
-.nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.nav a:hover {
-    text-decoration: underline;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-.destacados {
-    background: #fff8e1;
-    border-left: 5px solid #ffc107;
-    padding: 1.5rem;
-    border-radius: 8px;
+/* Buscador */
+.buscador {
     margin-bottom: 2rem;
 }
 
-.destacados h2 {
-    margin-bottom: 1rem;
-    color: #856404;
+.buscador form {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
-.destacados-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
+.buscador input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
 }
 
-.categoria {
-    margin-bottom: 2.5rem;
-}
-
-.categoria h3 {
-    color: #003366;
-    border-bottom: 2px solid #003366;
-    padding-bottom: 0.4rem;
-    margin-bottom: 0.5rem;
-}
-
-.categoria-desc {
-    color: #666;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-
-.enlaces-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
-}
-
-.card {
-    background: white;
-    border-radius: 8px;
-    padding: 1rem 1.2rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card h4 {
-    color: #003366;
-    margin-bottom: 0.5rem;
-}
-
-.card p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.8rem;
-}
-
-.card a {
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.card a:hover {
-    text-decoration: underline;
-}
-
-.card.destacado {
-    border-left: 4px solid #ffc107;
-}
-
-.vacio {
-    color: #999;
-    font-style: italic;
-}
-
-.footer {
-    text-align: center;
-    padding: 1.5rem;
+.buscador button {
+    padding: 0.7rem 1.5rem;
     background: #003366;
     color: white;
-    margin-top: 3rem;
-    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-/* Responsividad */
-@media (max-width: 600px) {
-    .header h1 {
-        font-size: 1.4rem;
-    }
+.buscador button:hover {
+    background: #002244;
+}
 
-    .nav {
-        gap: 1rem;
-        font-size: 0.9rem;
-    }
+.buscador .limpiar {
+    padding: 0.7rem 1rem;
+    background: #999;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.buscador .limpiar:hover {
+    background: #777;
+}
+
+.resultado-info {
+    margin-top: 0.5rem;
+    color: #555;
+    font-size: 0.9rem;
 }
