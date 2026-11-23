@@ -32,3 +32,18 @@ INSERT INTO enlaces (titulo, descripcion, url, categoria_id, destacado) VALUES
 ('Convocatoria Residencias 2026', 'Revisa los lineamientos y fechas.', 'https://www.queretaro.tecnm.mx/', 2, 1),
 ('Moodle ITQ', 'Plataforma de cursos en línea.', 'https://moodle.queretaro.tecnm.mx/', 5, 0),
 ('SII', 'Sistema Integral de Información.', 'https://sii.queretaro.tecnm.mx/', 5, 0);
+
+-- Tabla de usuarios administradores
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    rol VARCHAR(20) DEFAULT 'admin',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Usuario admin por defecto (contraseña: admin123)
+-- IMPORTANTE: Si el hash no funciona en otra computadora, genera uno nuevo con generar_hash.php
+INSERT INTO usuarios (usuario, password_hash, nombre, rol) VALUES
+('admin', '$2y$10$mEeZRbQ.AmeC2VVVwLSwY.TmmoKLR2ayCNc12pRF2CoT3uhBLVxUy', 'Administrador ITQ', 'admin');
