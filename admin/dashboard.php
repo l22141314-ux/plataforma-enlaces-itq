@@ -1,5 +1,4 @@
 <?php
-// admin/dashboard.php
 session_start();
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header('Location: index.php');
@@ -44,6 +43,8 @@ $categorias = $pdo->query("SELECT * FROM categorias ORDER BY nombre")->fetchAll(
     <div class="admin-container">
         <div class="admin-header">
             <h1>Panel de Administración</h1>
+            <h1>Panel de Administración</h1>
+<p style="color:#555; margin-top:0.3rem;">Bienvenido, <?= htmlspecialchars($_SESSION['admin_nombre'] ?? 'Administrador') ?></p>
             <div>
                 <a href="agregar.php" class="btn">+ Agregar enlace</a>
                 <a href="logout.php" class="btn btn-danger">Cerrar sesión</a>
