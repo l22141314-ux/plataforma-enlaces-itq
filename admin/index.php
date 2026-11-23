@@ -4,7 +4,7 @@ session_start();
 
 // Usuario y contraseña (en producción, esto debería estar en la BD)
 $usuario_valido = 'admin';
-$password_hash = '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZJ18JuywdBz0jJ0yq4T5K1yK'; // contraseña: admin123
+$password_hash = '$2y$10$K.iR/Q7RAcjqE6PrwMpMk.1fnQtJp6SuNavK3kY/mRJYtRCm10wEa'; // contraseña: admin123
 
 $error = '';
 
